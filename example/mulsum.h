@@ -51,26 +51,28 @@ public:
     T multiplyAndSum()
     {
         T sum = 0;
-        size_t n = data1_.size()/sizeof(T);
+        size_t n = elems_;
         auto p1 = data1_.data();
         auto p2 = data1_.data();
         if ((int64_t)p1 % 64)
             p1 += 64 - ((int64_t)p1 % 64);
         if ((int64_t)p2 % 64)
             p2 += 64 - ((int64_t)p2 % 64);
+        T *vec1 = (T *)p1;
+        T *vec2 = (T *)p2;
 
-        if (CheckOptimizationCPU(OPT_TYPE::AVX512))
-            dot_product_optimized_AVX512((T *)p1, (T *)p2, n, sum);
+        if (CheckOptimizationCPU(OPT_TYPE::AVX512) && !((elems_ * sizeof(T)) % 64))
+            dot_product_optimized_AVX512((T *)p1, (T *)p2, elems_ * sizeof(T) / 64, sum);
         else
-        if (CheckOptimizationCPU(OPT_TYPE::AVX))
-            dot_product_optimized_AVX256((T *)p1, (T *)p2, n, sum);
+        if (CheckOptimizationCPU(OPT_TYPE::AVX) && !((elems_ * sizeof(T)) % 32))
+            dot_product_optimized_AVX256((T *)p1, (T *)p2,  elems_ * sizeof(T) / 32, sum);
         else
-        if (CheckOptimizationCPU(OPT_TYPE::SSE))
-            dot_product_optimized_SSE128((T *)p1, (T *)p2, n, sum);
+        if (CheckOptimizationCPU(OPT_TYPE::SSE) && !((elems_ * sizeof(T)) % 16))
+            dot_product_optimized_SSE128((T *)p1, (T *)p2,  elems_ * sizeof(T) / 16, sum);
         else
         {
             for (size_t i = 0; i < n; i++)
-                sum += p1[i] * p2[i];
+                sum += vec1[i] * vec2[i];
         }
         return sum;
     }
@@ -86,6 +88,7 @@ private:
 
         // Получение текущей позиции указателя чтения (количество байтов в файле)
         std::streamsize size = in.tellg();
+        elems_ = size / sizeof(T);
         in.seekg(0, std::ios::beg);
         if (size > 1 << 20)
             throw std::runtime_error("Слишком большой размер файла");
@@ -94,13 +97,13 @@ private:
         char *p = data.data();
         if ((int64_t)p % 64)
             p += 64 - ((int64_t)p % 64);
-        T value;
         if (!in.read(p, size))
             throw std::runtime_error("Ошибка чтения файла");
     }
-
+    size_t elems_;
     std::vector<char> data1_;
     std::vector<char> data2_;
 };
 
 #endif // MULSUM_H
+
