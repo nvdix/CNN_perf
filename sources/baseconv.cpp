@@ -1,9 +1,9 @@
-#include "simpleconv.h"
-#include "sseconv.h"
-#include "avxconv.h"
-#include "avx512conv.h"
-#include "log.h"
-#include "utils.h"
+#include "headers/simpleconv.h"
+#include "headers/sseconv.h"
+#include "headers/avxconv.h"
+#include "headers/avx512conv.h"
+#include "headers/log.h"
+#include "headers/utils.h"
 
 ConvData::ConvData() :
     conv_type_(kDEF_TYPE),

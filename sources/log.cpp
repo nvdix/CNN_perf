@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 
-#include "log.h"
+#include "headers/log.h"
 
 Log gLog;
 

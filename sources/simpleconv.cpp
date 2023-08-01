@@ -1,6 +1,6 @@
-#include "simpleconv.h"
-#include "log.h"
-#include "utils.h"
+#include "headers/simpleconv.h"
+#include "headers/log.h"
+#include "headers/utils.h"
 
 SimpleConv::SimpleConv(CONV_TYPE type, int tensor_height, int tensor_width, int height, int width, int inputs,
                        int outputs, int stride_vert, int stride_horiz, bool padding_vert, bool padding_horiz)

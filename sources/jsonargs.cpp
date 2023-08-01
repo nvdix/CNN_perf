@@ -1,7 +1,7 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 
-#include "jsonargs.h"
+#include "headers/jsonargs.h"
 
 JsonArgs::JsonArgs(const std::string &filename)
 {

@@ -1,9 +1,9 @@
 #include <iostream>
 
-#include "args.h"
-#include "jsonargs.h"
-#include "baseconv.h"
-#include "log.h"
+#include "headers/args.h"
+#include "headers/jsonargs.h"
+#include "headers/baseconv.h"
+#include "headers/log.h"
 
 float gEpsilon = kDefEps;
 

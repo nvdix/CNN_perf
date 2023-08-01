@@ -2,14 +2,14 @@
 #include <xmmintrin.h>
 #include <immintrin.h>
 
-#include "simpleconv.h"
-#include "avxconv.h"
-#include "log.h"
-#include "utils.h"
+#include "headers/simpleconv.h"
+#include "headers/avx512conv.h"
+#include "headers/log.h"
+#include "headers/utils.h"
 
 #pragma pack(16)
 
-AVXConv::AVXConv(CONV_TYPE type, int tensor_height, int tensor_width, int height, int width, int inputs,
+AVX512Conv::AVX512Conv(CONV_TYPE type, int tensor_height, int tensor_width, int height, int width, int inputs,
                        int outputs, int stride_vert, int stride_horiz, bool padding_vert, bool padding_horiz)
 {
     conv_type_ = type;
@@ -28,7 +28,7 @@ AVXConv::AVXConv(CONV_TYPE type, int tensor_height, int tensor_width, int height
     kernel_.resize(GetKernelSize() * inputs_ * outputs_);
 }
 
-AVXConv::AVXConv(ConvData *conv)
+AVX512Conv::AVX512Conv(ConvData *conv)
 {
     *((ConvData *)this) = *conv;
 
@@ -36,7 +36,7 @@ AVXConv::AVXConv(ConvData *conv)
     kernel_.resize(GetKernelSize() * inputs_ * outputs_);
 }
 
-float AVXConv::RunConv()
+float AVX512Conv::RunConv()
 {
     // Проверить размерности свёртки
     if (tensor_height_ < std::max(kernel_height_, stride_vert_) || tensor_width_ < std::max(kernel_width_, stride_horiz_))
@@ -46,7 +46,7 @@ float AVXConv::RunConv()
 
     if (!accuracycheck_)
     {
-        str = string_format("Расчёт свёртки (AVX 256 бит оптимизация): %s", note_.data());
+        str = string_format("Расчёт свёртки (AVX 512 бит оптимизация): %s", note_.data());
         LOG_INFO(str);
     }
 
@@ -107,58 +107,64 @@ float AVXConv::RunConv()
     return result;
 }
 
-// Умножение и суммирование целочисленных 8-разрядных операндов (AVX-256 бит)
-__attribute__((target("avx2,fma"))) inline void dot_product_optimized_AVX256(char* a_ptr, char* w_ptr, size_t n, char& sum_val)
+// Умножение и суммирование целочисленных 8-разрядных операндов (AVX512-512 бит)
+__attribute__((target("avx512f,avx512bw"))) inline void dot_product_optimized_AVX512(char* a_ptr, char* w_ptr, size_t n, char& sum_val)
 {
-    __m256i sum16 = _mm256_setzero_si256();
+    __m512i sum32 = _mm512_setzero_si512();
     for (size_t i = 0; i < n; ++i)
     {
-        __m256i c = _mm256_maddubs_epi16(((__m256i*)a_ptr)[i], ((__m256i*)w_ptr)[i]);
-        sum16 = _mm256_add_epi16(c, sum16);
+        __m512i c = _mm512_maddubs_epi16(((__m512i*)a_ptr)[i], ((__m512i*)w_ptr)[i]);
+        sum32 = _mm512_add_epi16(c, sum32);
     }
+    __m256i sum16 = _mm256_add_epi16(((__m256i *)&sum32)[0], ((__m256i *)&sum32)[1]);
     __m128i sum8 = _mm_add_epi16(((__m128i *)&sum16)[0], ((__m128i *)&sum16)[1]);
     int16_t* sum_ptr = (int16_t*)&sum8;
     int16_t &s = *((int16_t *)&sum_val);
     s = sum_ptr[0] + sum_ptr[1] + sum_ptr[2] + sum_ptr[3] + sum_ptr[4] + sum_ptr[5] + sum_ptr[6] + sum_ptr[7];
 }
 
-// Умножение и суммирование операндов с плавающим знаком двойной точности (AVX-256 бит)
-__attribute__((target("avx2,fma"))) inline void dot_product_optimized_AVX256(double* a_ptr, double* w_ptr, size_t n, double& sum_val)
+// Умножение и суммирование операндов с плавающим знаком двойной точности (AVX512-512 бит)
+__attribute__((target("avx512f,avx512bw"))) inline void dot_product_optimized_AVX512(double* a_ptr, double* w_ptr, size_t n, double& sum_val)
 {
-    __m256d sum4 = _mm256_setzero_pd();
+    __m512d sum8 = _mm512_setzero_pd();
     for(size_t i = 0; i < n; i++)
-        sum4 = _mm256_fmadd_pd(((__m256d*)a_ptr)[i], ((__m256d*)w_ptr)[i], sum4);
+        sum8 = _mm512_fmadd_pd(((__m512d*)a_ptr)[i], ((__m512d*)w_ptr)[i], sum8);
+    __m256d sum4 = _mm256_add_pd(*((__m256d*)&sum8), ((__m256d*)&sum8)[1]);
     __m128d sum2 = _mm_add_pd(*((__m128d*)&sum4), ((__m128d*)&sum4)[1]);
     sum_val = ((double *)(&sum2))[0] + ((double *)(&sum2))[1];
 }
 
-// Умножение и суммирование операндов с плавающим знаком одинарной точности (AVX-256 бит)
-__attribute__((target("avx2,fma"))) inline void dot_product_optimized_AVX256(float* a_ptr, float* w_ptr, size_t n, float& sum_val)
+// Умножение и суммирование операндов с плавающим знаком одинарной точности (AVX512-512 бит)
+__attribute__((target("avx512f,avx512bw"))) inline void dot_product_optimized_AVX512(float* a_ptr, float* w_ptr, size_t n, float& sum_val)
 {
-    __m256 sum8 = _mm256_setzero_ps();
+    __m512 sum16 = _mm512_setzero_ps();
+
     for(size_t i = 0; i < n; i++)
-        sum8 = _mm256_fmadd_ps(((__m256*)a_ptr)[i], ((__m256*)w_ptr)[i], sum8);
+        sum16 = _mm512_fmadd_ps(((__m512*)a_ptr)[i], ((__m512*)w_ptr)[i], sum16);
+
+    __m256 sum8 = _mm256_add_ps(*((__m256*)&sum16), ((__m256*)&sum16)[1]);
     __m128 sum4 = _mm_add_ps(*((__m128*)&sum8), ((__m128*)&sum8)[1]);
     float *sum_ptr = (float *)(&sum4);
     sum_val = sum_ptr[0] + sum_ptr[1] + sum_ptr[2] + sum_ptr[3];
 }
 
-// Умножение и суммирование целочисленных 32-разрядных операндов (AVX-256 бит)
-__attribute__((target("avx2,fma"))) inline void dot_product_optimized_AVX256(int32_t* a_ptr, int32_t* w_ptr, size_t n, int32_t& sum_val)
+// Умножение и суммирование целочисленных 32-разрядных операндов (AVX512-512 бит)
+__attribute__((target("avx512f,avx512bw"))) inline void dot_product_optimized_AVX512(int32_t* a_ptr, int32_t* w_ptr, size_t n, int32_t& sum_val)
 {
-    __m256i sum8 = _mm256_setzero_si256();
+    __m512i sum16 = _mm512_setzero_si512();
     for(size_t i = 0; i < n; ++i)
     {
-        __m256i c = _mm256_mullo_epi32(((__m256i*)a_ptr)[i], ((__m256i*)w_ptr)[i]);
-        sum8 = _mm256_add_epi32(c, sum8);
+        __m512i c = _mm512_mullo_epi32(((__m512i*)a_ptr)[i], ((__m512i*)w_ptr)[i]);
+        sum16 = _mm512_add_epi32(c, sum16);
     }
+    __m256i sum8 = _mm256_add_epi32(((__m256i *)&sum16)[0], ((__m256i *)&sum16)[1]);
     __m128i sum4 = _mm_add_epi32(((__m128i *)&sum8)[0], ((__m128i *)&sum8)[1]);
     sum_val = ((int32_t *)&sum4)[0] + ((int32_t *)&sum4)[1] + ((int32_t *)&sum4)[2] + ((int32_t *)&sum4)[3];
 }
 
 // Выполнение многоканальной свёртки с расчётом времени
 template<typename T>
-float AVXConv::Convolution()
+float AVX512Conv::Convolution()
 {
     // Одноканальный тензор с добавлением padding если требуется
     std::vector<T> pad_tensor;
@@ -262,7 +268,7 @@ inline void CorrectSum(char &val)
 
 // Свёртка одного канала
 template<typename T>
-int AVXConv::MakeConv(T *result, T *tensor, T *kernel, dummyidentity<T>)
+int AVX512Conv::MakeConv(T *result, T *tensor, T *kernel, dummyidentity<T>)
 {
     // Размеры выходной матрицы с учётом дополнения
     int ResHeight =1 + (tensor_height_ - (padding_horiz_ ? 1 : kernel_height_)) / stride_vert_;
@@ -277,9 +283,9 @@ int AVXConv::MakeConv(T *result, T *tensor, T *kernel, dummyidentity<T>)
     // Указатель на конец данных тензора временного массива после сдвига
     T *endtt = tt + GetKernelSize(false) * inputs_;
 
-    // Размер ядра свёртки в байтах / 256 бит с округлением вверх
+    // Размер ядра свёртки в байтах / 512 бит с округлением вверх
     size_t ks = GetKernelSize(true) * inputs_;
-    ks = (ks % 32) ? (ks >> 5) + 1 : (ks >> 5);
+    ks = (ks % 64) ? (ks >> 6) + 1 : (ks >> 6);
 
     // Размер одного тензора в элементах
     int tensor_elems = tensor_width_ * tensor_height_;
@@ -320,7 +326,7 @@ int AVXConv::MakeConv(T *result, T *tensor, T *kernel, dummyidentity<T>)
             }
 
             // Суммирование произведений матрицы ядра и подматрицы тензора
-            dot_product_optimized_AVX256(tt, (T *)kernel, ks, sum);
+            dot_product_optimized_AVX512(tt, (T *)kernel, ks, sum);
 
             // Корректировка суммы для char
             CorrectSum(sum);

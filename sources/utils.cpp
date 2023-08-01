@@ -1,7 +1,7 @@
 #include <cpuid.h>
 
-#include "consts.h"
-#include "utils.h"
+#include "headers/consts.h"
+#include "headers/utils.h"
 
 // Форматирование в строку std::string с праметрами
 std::string string_format(const std::string fmt_str, ...)
