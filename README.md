@@ -1,79 +1,47 @@
-# CNN_perf
+# Library for testing the performance of various convolution algorithms that are part of convolutional neural networks
 
-Данный инструмент является прикладным программным средством для тестирования и оценки производительности свёртки
+As part of the project, a framework has been created that can be used by various teams to develop architectures for convolutional neural networks, as a measuring tool for evaluating the performance of operations using various data types and processor instructions.
 
-Зависимости\
-json
+The framework will provide developers of AI solutions with the following features:
+1. Calculation of the performance of convolutional operations in a neural network, including individual layers.\
+2. Support for various data types, vector processor instructions and basic algorithms\
+3. Presets of the most requested neural networks\
+4. Ability to test the correctness of the results\
+5. Ability to expand to other processors.
 
-Сборка\
-cmake ..
+**RUNNING LOCALLY**\
+Step 1 – Install dependencies\
+sudo apt install build-essential\
+sudo apt install cmake\
+sudo apt install git
 
-Использование\
+**Step 2 – Create and change directory**\
+mkdir testing\
+cd testing\
+
+**Step 3 – Clone the project repository and move to the release branch**\
+git clone https://github.com/nvdix/CNN_perf.git\
+cd CNN_perf\
+git checkout release
+
+**Step 4 – Clone json library repository**\
+mkdir 3rdparty\
+cd 3rdparty\
+git clone https://github.com/nlohmann/json.git
+
+**Step 5 – Build the project**\
+mkdir build\
+cd build\
+cmake ..\
+make
+
+**Step 6 – The convbench executable file will appear in the build project directory**\
+
+**Step 7 - To run the program, you must execute the command**\
 ./convbench -f=1
 
-Передаваемые параметры\
--h, --help, -? - вызов данной справки с последующим выходом.
+**LICENSE**/
+The software is available under the [MIT](https://github.com/nvdix/CNN_perf/blob/release/LICENSE.pdf) License.
 
--q, -quiet — тихий режим. Выводится только результат расчёта свёртки.
-
--v, -verify — тестирование корректности выполнения свёрток.
-
--l=“log.txt“, -log=“log .txt“ - протоколирование вывода в указанный файл — log.txt. Имя файла может быть в кавычках (если содержит пробелы) или без оных. В этот файл дублируется вывод консоли.
-
--j=“config.json“, -config=“config.json“ - загрузка конфигурации из указанного файла — config.json. Имя файла может быть в кавычках (если содержит пробелы) или без оных. В этом файле задаются параметры работы утилиты.
-
--f=ZZZ, -factory=ZZZ - выбор предварительно заданных свёрток (одно или несколько значений). Свёртки задаются по номерам:\
-    • 1 — LeNet-5 вход 32*32 ядро 5*5, сдвиг 1\
-    • 2 — AlexNet вход 224*224 ядро 11*11, сдвиг 4, с дополнением\
-    • 3 — VGG-19 вход 224*224 ядро 3*3, сдвиг 2, с дополнением\
-    • 4 — ResNet вход 224*224 ядро 7*7, сдвиг 2, с дополнением\
-    • 5 — SRCNN вход 32*32 ядро 9*9, сдвиг 1, с дополнением\
-    Можно задавать несколько вариантов свёрток.\
-    Например: «-f=145» означает: выбор 1,4,5 свёртки из списка с типом по умолчанию (если он не задан отдельным параметром).
-    
--t=ZZZ, -type=ZZZ - выбор обсчитываемых типов данных. Может быть использовано несколько типов. Допустимые типы данных:\
-    • f64 — double (знаковое с плавающей точкой 64 bit),\
-    • f32 — float (знаковое с плавающей точкой 32 bit),\
-    • i32 — int (знаковое целое 32 bit),\
-    • i8 — char (знаковое целое 8 bit).\
-    Если данный параметр присутствует, то он применяется ко всем свёрткам с не заданными типами данных. Если параметр нигде не указан, то для свёрток без указания типа выбирается значение по умолчанию f32.\
-    Например: «-t=f32i32i8».\
-    Данный параметр может присутствовать только в одном экземпляре.
-    
--z=X, -optimize=X — оптимизация (X). Может быть:\
-    • 0 — без оптимизации, стандарный алгоритм;\
-    • 1 — SSE оптимизация (128 бит), усовершенствованный алгоритм;\
-    • 2 — AVX оптимизация (256 бит), усовершенствованный алгоритм;\
-    • 5 — AVX512 оптимизация (512 бит), усовершенствованный алгоритм.\
-    Если данный параметр присутствует, то он применяется ко всем свёрткам с не заданной оптимизацией.\
-    Может задаваться несколько вариантов оптимизации, например «-z0125».
-    
--rH*W, -tensorH*W — размерность входного тензора. Где H — высота, W — ширина. H и W могут быть заданы в диапазоне от 16 до 512. По умолчанию используется H и W = 224.\
-    Данный параметр может присутствовать только в одном экземпляре.
-    
--kH*W -kernelH*W — размерность ядра. Где H — высота, W — ширина. H и W могут быть заданы в диапазоне от 3 до 31. По умолчанию используется H и W  = 3.\
-    Данный параметр может присутствовать только в одном экземпляре.
-    
--sH*V, -strideH*V — сдвиг (stride) по горизонтали и вертикали. Если указано одно число, то оно применяется на две оси. N — от 1 (по умолчанию) до 512. Сдвиг уменьшается автоматически по размеру тензора).\
-    Данный параметр может присутствовать только в одном экземпляре.
-    
--pH*V, -paddingH*V — дополнение нулями (padding). Может быть 0 (нет дополнения) или 1 (есть дополнение). Если указана одна цифра, то она применяется на две оси. По умолчанию сдвига нет.\
-    Данный параметр может присутствовать только в одном экземпляре.
-    
--iZ, -inputsZ — число входных каналов (Z). Может быть от 1 до 256.\
-    Данный параметр может присутствовать только в одном экземпляре.
-    
--oZ, -outputsZ — число выходов (Z). Может быть от 1 до 256.\
-    Данный параметр может присутствовать только в одном экземпляре.
-        
--cR,K,S,P,I,O,T,Z -convR,K,S,P,I,O,T,Z - выбор используемых свёрток (одно или несколько значений). Где:\
-    • R - H*W — размерность входного тензора;\
-    • K - H*W — размерность ядра;\
-    • S - H*V — сдвиг (stride);\
-    • P - H*V — дополнение нулями (padding);\
-    • I — число входных каналов;\
-    • O — число выходов;\
-    • T — используемые типы данных;\
-    • Z — оптимизация.\
-    При этом обязательные параметры это размер тензора и ядра, остальные можно не указывать (будут использованы значения по умолчанию).]\
-    Данный параметр может присутствовать в нескольких экземплярах, т.е можно задать несколько различных свёрток. Например: «-c224*224,3*3,1*1,1 -c256,11,2,0,1,64,f32i8,0125»
+**CONTACT**/
+If you have any questions, feel free to [open an issue](https://github.com/nvdix/CNN_perf/tree/release)
