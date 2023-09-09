@@ -1,13 +1,16 @@
 # Library for testing the performance of various convolution algorithms that are part of convolutional neural networks
 
-As part of the project, a framework has been created that can be used by various teams to develop architectures for convolutional neural networks, as a measuring tool for evaluating the performance of operations using various data types and processor instructions.
+[This](https://github.com/nvdix/CNN_perf) comprehensive framework designed to serve as a robust tool for various teams involved in developing architectures for convolutional neural networks. This framework acts not only as a measuring tool for evaluating the performance of convolutional operations across different data types and processor instructions but also as a platform to accelerate the synthesis of new architectures during the design process.
 
-The framework will provide developers of AI solutions with the following features:
-1. Calculation of the performance of convolutional operations in a neural network, including individual layers.
-2. Support for various data types, vector processor instructions and basic algorithms.
-3. Presets of the most requested neural networks.
-4. Ability to test the correctness of the results.
-5. Ability to expand to other processors.
+**Features and Applications:** \
+1.Performance Calculation: This tool enables the calculation of the performance of convolutional operations in a neural network, including the evaluation of individual layers.\
+2.Data and Processor Support: Our framework supports various data types and vector processor instructions, facilitating the optimization of work in convolutional layers of neural networks.\
+3.Algorithm Testing and Verification: Users can test and verify the correctness of convolutional algorithms, ensuring the reliability and efficiency of neural network models.\
+4.Presets: The framework comes equipped with presets of the most requested neural networks, making it easier for developers to get started on projects.\
+5.Expandability: Designed with flexibility in mind, the framework has the capability to expand to other processors, accommodating a broad range of hardware platforms.\
+6.Educational Use: This tool is also valuable for educational purposes, allowing users to understand how convolutions work in neural networks and how they can be optimized.
+
+By offering these features and applications, the framework aims to provide a versatile solution for developers and researchers in the field of AI, particularly those focused on convolutional neural networks.
 
 **RUNNING LOCALLY**\
 **Step 1 – Install dependencies**\
@@ -26,7 +29,8 @@ cd CNN_perf
 **Step 4 – Clone json library repository**\
 mkdir 3rdparty\
 cd 3rdparty\
-git clone https://github.com/nlohmann/json.git
+git clone https://github.com/nlohmann/json.git \
+cd ..
 
 **Step 5 – Build the project**\
 mkdir build\
