@@ -1,6 +1,9 @@
 # Library for testing the performance of various convolution algorithms that are part of convolutional neural networks
 
-[This](https://github.com/nvdix/CNN_perf) comprehensive framework designed to serve as a robust tool for various teams involved in developing architectures for convolutional neural networks. This framework acts not only as a measuring tool for evaluating the performance of convolutional operations across different data types and processor instructions but also as a platform to accelerate the synthesis of new architectures during the design process.
+[This](https://github.com/nvdix/CNN_perf) comprehensive framework designed to serve as a robust tool for various teams involved in developing architectures for convolutional neural networks.\
+This framework acts not only as a measuring tool for evaluating the performance of convolutional operations across different data types and processor instructions (SSE, AVX, AVX512) but also as a platform to accelerate the synthesis of new architectures during the design process.\
+*In the context of this task, AVX refers to the combination of AVX, AVX2, and FMA3 extensions.*\
+*AVX512 refers to the combination of AVX512F and AVX512BW extensions.*
 
 **Features and Applications:** \
 1.Performance Calculation: This tool enables the calculation of the performance of convolutional operations in a neural network, including the evaluation of individual layers.\
