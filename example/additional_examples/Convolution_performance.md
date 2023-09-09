@@ -5,6 +5,6 @@
 ./convbench -f=4 -t=f64 -z=0125
 ```
 
-![test](https://github.com/nvdix/CNN_perf/blob/main/example/additional_examples/1.png)
+![example1](https://github.com/nvdix/CNN_perf/blob/main/example/additional_examples/1.png)
 
 Данная команда считает производительность (вычислений в секунду) свёртки первого слоя из нейронной сети ResNet для всех видов оптимизаций. Поскольку на процессоре intel Core i5-10400 отсутствует поддержка AVX512, то считается производительность без оптимизации, с оптимизацией SSE и с оптимизацией AVX.
