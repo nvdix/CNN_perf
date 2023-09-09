@@ -1,0 +1,31 @@
+{ 
+    "config":{
+        "quiet" : false,
+        "log" : "newlog.txt",
+        "verify" : 0.05
+    },
+    "conv":[
+        {
+            "tensor": "5*5",
+            "kernel": "3*3",
+            "stride": "1",
+            "padding": "1",
+            "inputs": "1",
+            "types": "f32",
+            "note": "тестовая свёртка"
+        },
+        {
+            "tensor": "224*224",
+            "kernel": "3*3",
+            "stride": "2*2",
+            "inputs": "3",
+            "types": "i32"
+        },
+        {
+            "tensor": "224*224",
+            "kernel": "3*3",
+            "stride": "1*1",
+            "outputs": "16"
+        }
+    ]
+}
