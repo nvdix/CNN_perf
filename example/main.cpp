@@ -2,7 +2,7 @@
 
 #include "newargs.h"
 #include "mulsum.h"
-#include "../log.h"
+#include "log.h"
 
 float gEpsilon = kDefEps;
 
