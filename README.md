@@ -17,7 +17,7 @@ sudo apt install git
 
 **Step 2 – Create and change directory**\
 mkdir testing\
-cd testing\
+cd testing
 
 **Step 3 – Clone the project repository and move to the release branch**\
 git clone https://github.com/nvdix/CNN_perf.git\
