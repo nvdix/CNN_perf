@@ -14,9 +14,9 @@ By offering these features and applications, the framework aims to provide a ver
 
 **RUNNING LOCALLY**\
 **Step 1 – Install dependencies**\
-sudo apt install build-essential\
-sudo apt install cmake\
-sudo apt install git
+sudo apt-get install build-essential\
+sudo apt-get install cmake\
+sudo apt-get install git
 
 **Step 2 – Create and change directory**\
 mkdir testing\
