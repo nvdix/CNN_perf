@@ -6,7 +6,7 @@
 #include <typeinfo>
 #include <stdexcept>
 
-#include "../baseconv.h"
+#include "baseconv.h"
 
 // Умножение и суммирование целочисленных 8-разрядных операндов (AVX512-512 бит)
 extern __attribute__((target("avx512f,avx512bw"))) inline void dot_product_optimized_AVX512(char* a_ptr, char* w_ptr, size_t n, char& sum_val);
