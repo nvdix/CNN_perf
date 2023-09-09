@@ -20,9 +20,8 @@ mkdir testing\
 cd testing
 
 **Step 3 – Clone the project repository and move to the release branch**\
-git clone https://github.com/nvdix/CNN_perf.git\
-cd CNN_perf\
-git checkout release
+git clone https://github.com/nvdix/CNN_perf.git \
+cd CNN_perf
 
 **Step 4 – Clone json library repository**\
 mkdir 3rdparty\
