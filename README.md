@@ -53,8 +53,11 @@ make
 **Step 7 - To run the program, you must execute the command**\
 ./convbench -f=1
 
+**INSTRUCTION**\
+[Additional Information](https://github.com/nvdix/CNN_perf/blob/main/INSTRUCTION.pdf)
+
 **LICENSE**\
-The software is available under the [MIT](https://github.com/nvdix/CNN_perf/blob/release/LICENSE.pdf) License.
+The software is available under the [MIT](https://github.com/nvdix/CNN_perf/blob/main/LICENSE.pdf) License.
 
 **CONTACT**\
-If you have any questions, feel free to [open an issue](https://github.com/nvdix/CNN_perf/tree/release)
+If you have any questions, feel free to [open an issue](https://github.com/nvdix/CNN_perf)
