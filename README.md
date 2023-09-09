@@ -12,6 +12,16 @@
 
 By offering these features and applications, the framework aims to provide a versatile solution for developers and researchers in the field of AI, particularly those focused on convolutional neural networks.
 
+**TECHNICAL REQUIREMENTS** \
+*Operating system*: Debian 10-based Linux (e.g., Ubuntu 20.04)\
+*Processor (CPU)*: x86-64 architecture\
+*Random Access Memory (RAM)*: Minimum 8 GB\
+*Hard Drive (HDD/SSD)*: At least 1 GB of free space\
+*gcc version*: >= 7.5.0\
+*CMake version*: >= 3.10\
+*C++ standart*: >= 17\
+*Additional Libraries*: json
+
 **RUNNING LOCALLY**\
 **Step 1 – Install dependencies**\
 sudo apt-get install build-essential\
