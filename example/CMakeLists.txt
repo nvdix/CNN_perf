@@ -8,26 +8,23 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-ignored-attributes")
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(..)
+include_directories(../headers)
 
 add_executable(vecmulsum
-  ../log.h ../log.cpp
-  ../consts.h
+  ../headers/log.h ../sources/log.cpp
+  ../headers/consts.h
   main.cpp
-  ../errors.h
-  ../baseconv.h ../baseconv.cpp
-  ../simpleconv.h ../simpleconv.cpp
-  ../avxconv.cpp ../avxconv.h
-  ../avx512conv.cpp ../avx512conv.h
-  ../sseconv.h ../sseconv.cpp
-  ../utils.h ../utils.cpp
+  ../headers/errors.h
+  ../headers/baseconv.h ../sources/baseconv.cpp
+  ../headers/simpleconv.h ../sources/simpleconv.cpp
+  ../headers/avxconv.h ../sources/avxconv.cpp
+  ../headers/avx512conv.h ../sources/avx512conv.cpp
+  ../headers/sseconv.h ../sources/sseconv.cpp
+  ../headers/utils.h ../sources/utils.cpp
   newargs.h newargs.cpp
   mulsum.h mulsum.cpp
 )
