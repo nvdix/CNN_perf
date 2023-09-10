@@ -56,6 +56,8 @@ make
 **Step 7 - To run the program, you must execute the command**\
 ./convbench -f=1
 
+The calculated number of convolutions per second is displayed as the output.
+
 **INSTRUCTION**\
 [Additional Information](https://github.com/nvdix/CNN_perf/blob/main/INSTRUCTION.pdf)
 
