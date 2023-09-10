@@ -193,12 +193,13 @@ CmdArgs::CmdArgs(int argc, char *argv[])
         if (CheckParam(a, "-l=", "-log="))
             logname_ = a;
         else
-        if (CheckParam(a, "-v=", "-verify=") || CheckParam(a, "-v", "-verify"))
+        if (CheckParam(a, "-v", "-verify"))
         {
-            if (a.size())
+            auto findedEqual = a.find("=");
+            if (findedEqual != std::string::npos)
             {
                 char *pend;
-                float eps = strtof32(a.data(), &pend);
+                float eps = strtof32(&(a.data()[findedEqual + 1]), &pend);
                 if (eps >= kDefMinEps && eps <= kDefMaxEps)
                     gEpsilon = eps;
                 else
@@ -226,6 +227,7 @@ bool CmdArgs::FindJsonConfig(std::string &filename)
         if (CheckParam(a, "-j=", "-config="))
         {
             filename = a;
+            std::cout<<a<<std::endl;
             return filename.size() ? true : false;
         }
     return false;
@@ -234,15 +236,17 @@ bool CmdArgs::FindJsonConfig(std::string &filename)
 // Проверить параметр и выдать его дополнительную информацию
 bool CmdArgs::CheckParam(std::string &str, const char *param1, const char *param2)
 {
-    if (str.find(param1) != std::string::npos)
+    if (str.find(param2) != std::string::npos && (str.size() == strlen(param2) ||
+        std::isdigit(str[strlen(param2)]) || str[strlen(param2) - 1] == '='))
     {
-        str.erase(0, strlen(param1));
+        str.erase(0, strlen(param2));
         return true;
     }
 
-    if (str.find(param2) != std::string::npos)
+    if (str.find(param1) != std::string::npos && (str.size() == strlen(param1) ||
+        std::isdigit(str[strlen(param1)]) || str[strlen(param1) - 1] == '='))
     {
-        str.erase(0, strlen(param2));
+        str.erase(0, strlen(param1));
         return true;
     }
 
@@ -301,6 +305,7 @@ void CmdArgs::AddConv(std::string conv, std::string note)
 {
     BaseArgs newConv = *this;
 
+    if (conv.size())
     do {
         // Установить данные размера тензора
         if (!SetTensor(conv, &newConv))
@@ -308,11 +313,11 @@ void CmdArgs::AddConv(std::string conv, std::string note)
 
         // Проверка на наличие следующих данных и удаление обработанных
         if (!RemoveFirstToken(conv))
-            return;
+            break;
 
         // Установить данные размера ядра
         if (!SetKernel(conv, &newConv))
-            return;
+            break;
 
         // Проверка на наличие следующих данных и удаление обработанных
         if (!RemoveFirstToken(conv))
@@ -320,7 +325,7 @@ void CmdArgs::AddConv(std::string conv, std::string note)
 
         // Установить данные прореживания
         if (!SetStride(conv, &newConv))
-            return;
+            break;
 
         // Проверка на наличие следующих данных и удаление обработанных
         if (!RemoveFirstToken(conv))
@@ -376,7 +381,6 @@ void CmdArgs::AddConv(std::string conv, std::string note)
             newConv.types_ = types_;
     }
 
-
     if (!newConv.opts_.size())
     {
         if (!opts_.size())
@@ -403,6 +407,24 @@ int CmdArgs::BuildNewConv()
 {
     SetDefaults();
 
+    // Добавление заданных параметрами свёрток
+    for (auto a : args_)
+        if (CheckParam(a, "-c", "-conv"))
+            AddConv(a);
+
+    if (!conv_vec_.size())
+    {
+        bool isSetConv = false;
+        for (auto a : args_)
+            if (CheckParam(a, "-r", "-tensor"))
+            {
+                isSetConv = true;
+                break;
+            }
+        if (isSetConv)
+            AddConv("");
+    }
+
     // Проверка на предварительно заданные свёртки
     for (auto a : args_)
         if (CheckParam(a, "-f=", "-factory="))
@@ -410,11 +432,6 @@ int CmdArgs::BuildNewConv()
             AddPredefinedConv(a);
             break;
         }
-
-    // Добавление заданных параметрами свёрток
-    for (auto a : args_)
-        if (CheckParam(a, "-c", "-conv"))
-            AddConv(a);
 
     if (!conv_vec_.size())
         throw std::runtime_error(kErrorNoConvolutions);
