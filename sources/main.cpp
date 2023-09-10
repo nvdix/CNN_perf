@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 
         // Расчёт свёрток и вывод результатов
         for (auto &&c : arg->conv_vec_)
-            LOG_RESULT(std::to_string(c->RunConv()));
+            LOG_RESULT("Рассчитанное число свёрток за одну секунду: " + std::to_string(c->RunConv()));
 
     }
     // Обработчик исключений - вывод сообщений об ошибках
