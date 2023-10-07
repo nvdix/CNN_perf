@@ -9,29 +9,29 @@
 #include "baseconv.h"
 
 // Умножение и суммирование целочисленных 8-разрядных операндов (AVX512-512 бит)
-extern __attribute__((target("avx512f,avx512bw"))) inline void dot_product_optimized_AVX512(char* a_ptr, char* w_ptr, size_t n, char& sum_val);
+__attribute__((target("avx512f,avx512bw"))) void dot_product_optimized_AVX512(char* a_ptr, char* w_ptr, size_t n, char& sum_val);
 // Умножение и суммирование операндов с плавающим знаком двойной точности (AVX512-512 бит)
-extern __attribute__((target("avx512f,avx512bw"))) inline void dot_product_optimized_AVX512(double* a_ptr, double* w_ptr, size_t n, double& sum_val);
+__attribute__((target("avx512f,avx512bw"))) void dot_product_optimized_AVX512(double* a_ptr, double* w_ptr, size_t n, double& sum_val);
 // Умножение и суммирование операндов с плавающим знаком одинарной точности (AVX512-512 бит)
-extern __attribute__((target("avx512f,avx512bw"))) inline void dot_product_optimized_AVX512(float* a_ptr, float* w_ptr, size_t n, float& sum_val);
+__attribute__((target("avx512f,avx512bw"))) void dot_product_optimized_AVX512(float* a_ptr, float* w_ptr, size_t n, float& sum_val);
 // Умножение и суммирование целочисленных 32-разрядных операндов (AVX512-512 бит)
-extern __attribute__((target("avx512f,avx512bw"))) inline void dot_product_optimized_AVX512(int32_t* a_ptr, int32_t* w_ptr, size_t n, int32_t& sum_val);
+__attribute__((target("avx512f,avx512bw"))) void dot_product_optimized_AVX512(int32_t* a_ptr, int32_t* w_ptr, size_t n, int32_t& sum_val);
 // Умножение и суммирование целочисленных 8-разрядных операндов (AVX-256 бит)
-__attribute__((target("avx2,fma"))) inline void dot_product_optimized_AVX256(char* a_ptr, char* w_ptr, size_t n, char& sum_val);
+__attribute__((target("avx2,fma"))) void dot_product_optimized_AVX256(char* a_ptr, char* w_ptr, size_t n, char& sum_val);
 // Умножение и суммирование операндов с плавающим знаком двойной точности (AVX-256 бит)
-__attribute__((target("avx2,fma"))) inline void dot_product_optimized_AVX256(double* a_ptr, double* w_ptr, size_t n, double& sum_val);
+__attribute__((target("avx2,fma"))) void dot_product_optimized_AVX256(double* a_ptr, double* w_ptr, size_t n, double& sum_val);
 // Умножение и суммирование операндов с плавающим знаком одинарной точности (AVX-256 бит)
-__attribute__((target("avx2,fma"))) inline void dot_product_optimized_AVX256(float* a_ptr, float* w_ptr, size_t n, float& sum_val);
+__attribute__((target("avx2,fma"))) void dot_product_optimized_AVX256(float* a_ptr, float* w_ptr, size_t n, float& sum_val);
 // Умножение и суммирование целочисленных 32-разрядных операндов (AVX-256 бит)
-__attribute__((target("avx2,fma"))) inline void dot_product_optimized_AVX256(int32_t* a_ptr, int32_t* w_ptr, size_t n, int32_t& sum_val);
+__attribute__((target("avx2,fma"))) void dot_product_optimized_AVX256(int32_t* a_ptr, int32_t* w_ptr, size_t n, int32_t& sum_val);
 // Умножение и суммирование целочисленных 8-разрядных операндов(SSE-128 бит)
-__attribute__((target("sse4.2"))) inline void dot_product_optimized_SSE128(char* a_ptr, char* w_ptr, size_t n, char& sum_val);
+__attribute__((target("sse4.2"))) void dot_product_optimized_SSE128(char* a_ptr, char* w_ptr, size_t n, char& sum_val);
 // Умножение и суммирование операндов с плавающим знаком двойной точности (SSE-128 бит)
-__attribute__((target("sse4.2"))) inline void dot_product_optimized_SSE128(double* a_ptr, double* w_ptr, size_t n, double& sum_val);
+__attribute__((target("sse4.2"))) void dot_product_optimized_SSE128(double* a_ptr, double* w_ptr, size_t n, double& sum_val);
 // Умножение и суммирование операндов с плавающим знаком одинарной точности (SSE-128 бит)
-__attribute__((target("sse4.2"))) inline void dot_product_optimized_SSE128(float* a_ptr, float* w_ptr, size_t n, float& sum_val);
+__attribute__((target("sse4.2"))) void dot_product_optimized_SSE128(float* a_ptr, float* w_ptr, size_t n, float& sum_val);
 // Умножение и суммирование целочисленных 32-разрядных операндов(SSE-128 бит)
-__attribute__((target("sse4.2"))) inline void dot_product_optimized_SSE128(int32_t* a_ptr, int32_t* w_ptr, size_t n, int32_t& sum_val);
+__attribute__((target("sse4.2"))) void dot_product_optimized_SSE128(int32_t* a_ptr, int32_t* w_ptr, size_t n, int32_t& sum_val);
 
 // Класс умножения векторов и последующего суммирования
 template <typename T>
