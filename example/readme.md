@@ -39,6 +39,10 @@ Activating the virtual environment:
 ```bash
 source numpy-dev/bin/activate
 ```
+Installing numpy library
+```bash
+pip install numpy
+```
 Creating a pair of files:
 ```bash
 python3 make_files.py
@@ -85,6 +89,10 @@ python3 -m venv my_env
 Активация виртуальной среды
 ```bash
 source numpy-dev/bin/activate
+```
+Установка библиотеки numpy
+```bash
+pip install numpy
 ```
 Создание пар файлов
 ```bash
