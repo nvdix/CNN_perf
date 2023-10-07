@@ -64,6 +64,8 @@ The calculated number of convolutions per second is displayed as the output.
 **EXAMPLE**\
 [Example use case for this code](https://github.com/nvdix/CNN_perf/blob/main/example/readme.md)
 
+[**ADDITIONAL EXAMPLES**](https://github.com/nvdix/CNN_perf/tree/main/example/additional_examples)
+
 **LICENSE**\
 The software is available under the [MIT](https://github.com/nvdix/CNN_perf/blob/main/LICENSE.pdf) License.
 
