@@ -18,4 +18,4 @@
 ```
 ![example2](https://github.com/nvdix/CNN_perf/blob/main/example/additional_examples/2.png)
 
-Скрипт [convnetbench.sh](https://github.com/nvdix/CNN_perf/blob/main/example/additional_examples/convnetbench.sh) (использует утилиту bc для арифметических расчётов) необходимо поместить в каталог build, где располагается скомпилированная программа convbench.
+Скрипт [convnetbench.sh](https://github.com/nvdix/CNN_perf/blob/main/example/additional_examples/convnetbench.sh) (использует утилиту bc для арифметических расчётов, если не установлена, то выполнить команду _sudo apt-get install bc_) необходимо поместить в каталог build, где располагается скомпилированная программа convbench, и выполнить команду _sudo chmod +x convnetbench.sh_.
