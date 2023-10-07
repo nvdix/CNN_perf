@@ -14,8 +14,8 @@
 
 Пример расчёта производительности сети LeNet с двумя свёрточными слоями:
 ```bash
-./convnetbench.bash -c32*32,5*5,1*1,0*0,1,6 -c14*14,5*5,1*1,0*0,6,16
+./convnetbench.sh -c32*32,5*5,1*1,0*0,1,6 -c14*14,5*5,1*1,0*0,6,16
 ```
 ![example2](https://github.com/nvdix/CNN_perf/blob/main/example/additional_examples/2.png)
 
-Скрипт [convnetbench.bash](https://github.com/nvdix/CNN_perf/blob/main/example/additional_examples/convnetbench.sh) (использует утилиту bc для арифметических расчётов) необходимо поместить в каталог build, где располагается скомпилированная программа convbench.
+Скрипт [convnetbench.sh](https://github.com/nvdix/CNN_perf/blob/main/example/additional_examples/convnetbench.sh) (использует утилиту bc для арифметических расчётов) необходимо поместить в каталог build, где располагается скомпилированная программа convbench.
