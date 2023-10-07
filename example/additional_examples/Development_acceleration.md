@@ -10,8 +10,10 @@
 
 Таким образом, утилита предоставляет возможность для быстрой итерации и экспериментов, что ускоряет процесс нахождения оптимальной архитектуры для задачи.
 
-С помощью скрипта [convnetbench.bash](https://github.com/nvdix/CNN_perf/blob/main/example/additional_examples/convnetbench.sh) также можно анализировать разные архитектуры сетей и выбирать варианты с лучшей производительностью. Например для сети из трёх слоёв:
+С помощью скрипта [convnetbench.sh](https://github.com/nvdix/CNN_perf/blob/main/example/additional_examples/convnetbench.sh) также можно анализировать разные архитектуры сетей и выбирать варианты с лучшей производительностью. Например для сети из трёх слоёв:
 ```bash
-./convnetbench.bash -c224*224,7*7,2,1,3,64 -c112*112,7*7,2,1,64,64 -c56*56,3*3,2,1,64,128
+./convnetbench.sh -c224*224,7*7,2,1,3,64 -c112*112,7*7,2,1,64,64 -c56*56,3*3,2,1,64,128
 ```
 ![example3](https://github.com/nvdix/CNN_perf/blob/main/example/additional_examples/3.png)
+
+Скрипт convnetbench.sh (использует утилиту bc для арифметических расчётов, если не установлена, то выполнить команду _sudo apt-get install bc_) необходимо поместить в каталог build, где располагается скомпилированная программа convbench, и выполнить команду _sudo chmod +x convnetbench.sh_.
