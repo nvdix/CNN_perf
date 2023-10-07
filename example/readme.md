@@ -17,6 +17,32 @@ Example:
 vecmulsm -t=i8 -i=file1.bin -i=file2.bin
 ```
 
+To generate two binary files of different types, it is suggested to use the script _make_files.py_\
+To run it, you need to:\
+Installing the latest version of Python:
+```bash
+sudo apt install python3
+```
+Installing the pip package manager:
+```bash
+sudo apt install python3-pip
+```
+Installing the Python virtual environment package:
+```bash
+sudo apt install python3-venv
+```
+Creating a Python virtual environment:
+```bash
+python3 -m venv my_env
+```
+Activating the virtual environment:
+```bash
+source numpy-dev/bin/activate
+```
+Creating a pair of files:
+```bash
+python3 make_files.py
+```
 
 Пример предназначен для вычисления скалярного произведения двух векторов, которые хранятся в бинарных файлах. \
 Пример предоставляет различные опции для управления этим процессом, включая выбор типа данных (char, int32, float или double) и использование оптимизаций на уровне процессора.
@@ -37,3 +63,30 @@ vecmulsm -t=i8 -i=file1.bin -i=file2.bin
   ```bash
   vecmulsm -t=i8 -i=file1.bin -i=file2.bin
   ```
+
+Для генерации двух бинарных файлов различных типов предлагается использовать скрипт _make_files.py_\
+Для его запуска необходимо:\
+Установка последней версии Python
+```bash
+sudo apt install python3
+```
+Установка менеджера пакетов pip
+```bash
+sudo apt install python3-pip
+```
+Установка пакета создания виртуальной среды Python
+```bash
+sudo apt install python3-venv
+```
+Создание виртуальной среды Python
+```bash
+python3 -m venv my_env
+```
+Активация виртуальной среды
+```bash
+source numpy-dev/bin/activate
+```
+Создание пар файлов
+```bash
+python3 make_files.py
+```
