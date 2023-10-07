@@ -18,7 +18,7 @@ vecmulsm -t=i8 -i=file1.bin -i=file2.bin
 ```
 
 To generate two binary files of different types, it is suggested to use the script _make_files.py_\
-To run it, you need to:\
+To run it, while in the _CNN_perf/example_ directory, execute:\
 Installing the latest version of Python:
 ```bash
 sudo apt install python3
@@ -65,7 +65,7 @@ python3 make_files.py
   ```
 
 Для генерации двух бинарных файлов различных типов предлагается использовать скрипт _make_files.py_\
-Для его запуска необходимо:\
+Для его запуска необходимо, находясь в каталоге _CNN_perf/example_, выполнить :\
 Установка последней версии Python
 ```bash
 sudo apt install python3
