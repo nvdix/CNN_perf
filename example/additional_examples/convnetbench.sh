@@ -11,10 +11,11 @@ total_time_inv=0.0
 
 # Функция для вызова утилиты и добавления результатов к общему числу
 calculate_ops() {
-    local layer_results=$(./convbench -q "$@")
+    local raw_layer_results=$(./convbench -q "$@")
     echo "Слои: $@"
     IFS=$'\n'
-    for layer_ops in $layer_results; do
+    for layer_result in $raw_layer_results; do
+        layer_ops=$(echo "$layer_result" | awk -F': ' '{print $2}')
         echo "    $layer_ops операций в секунду"
         layer_time_inv=$(echo "1 / $layer_ops" | bc -l)
         total_time_inv=$(echo "$total_time_inv + $layer_time_inv" | bc -l)
