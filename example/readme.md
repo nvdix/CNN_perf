@@ -37,7 +37,7 @@ python3 -m venv my_env
 ```
 Activating the virtual environment:
 ```bash
-source numpy-dev/bin/activate
+source my_env/bin/activate
 ```
 Installing numpy library
 ```bash
@@ -88,7 +88,7 @@ python3 -m venv my_env
 ```
 Активация виртуальной среды
 ```bash
-source numpy-dev/bin/activate
+source my_env/bin/activate
 ```
 Установка библиотеки numpy
 ```bash
