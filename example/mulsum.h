@@ -61,16 +61,27 @@ public:
         T *vec1 = (T *)p1;
         T *vec2 = (T *)p2;
 
+        std::cout << "Используемая оптимизация: ";
         if (CheckOptimizationCPU(OPT_TYPE::AVX512) && !((elems_ * sizeof(T)) % 64))
+        {
+            std::cout << "AVX512 (512-бит)" << std::endl;
             dot_product_optimized_AVX512((T *)p1, (T *)p2, elems_ * sizeof(T) / 64, sum);
+        }
         else
         if (CheckOptimizationCPU(OPT_TYPE::AVX) && !((elems_ * sizeof(T)) % 32))
+        {
+            std::cout << "AVX (256-бит)" << std::endl;
             dot_product_optimized_AVX256((T *)p1, (T *)p2,  elems_ * sizeof(T) / 32, sum);
+        }
         else
         if (CheckOptimizationCPU(OPT_TYPE::SSE) && !((elems_ * sizeof(T)) % 16))
+        {
+            std::cout << "SSE (128-бит)" << std::endl;
             dot_product_optimized_SSE128((T *)p1, (T *)p2,  elems_ * sizeof(T) / 16, sum);
+        }
         else
         {
+            std::cout << "без оптимизации" << std::endl;
             for (size_t i = 0; i < n; i++)
                 sum += vec1[i] * vec2[i];
         }
