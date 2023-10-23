@@ -15,3 +15,4 @@
 ```bash
 ./convbench -r56*56 -k3*3 -s1*1 -p1*1 -i64 -o64 -t=f64 -z=0125
 ```
+За параметрами слоёв можно обратиться к [оригинальной статье](https://arxiv.org/pdf/1512.03385.pdf) или [документации по ResNet](https://towardsdatascience.com/understanding-and-visualizing-resnets-442284831be8).
