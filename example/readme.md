@@ -1,5 +1,5 @@
 The example is designed to calculate the dot product of two vectors stored in binary files. \
-The example provides various options for controlling this process, including the choice of data types (char, int32, float, or double), and uses available processor-level optimizations.
+The example provides various options for controlling this process, including the choice of data types (char, int32, float, or double), and uses available processor-level optimizations. The automatic selection of the best optimization for the processor is performed in the multiplyAndSum() function of the CVectorMulSum class, defined in the "mulsum.h" file (lines 64 - 76). That is, AVX512 or, if it's not available, then AVX, otherwise SSE, and if no optimization is supported at all, then without it (using regular processor instructions).
 
 Usage: vecmulsm [KEY] [KEY]\
 Calculates the sum of vector products from binary files with the following parameters:\
@@ -49,7 +49,7 @@ python3 make_files.py
 ```
 
 Пример предназначен для вычисления скалярного произведения двух векторов, которые хранятся в бинарных файлах. \
-Пример предоставляет различные опции для управления этим процессом, включая выбор типа данных (char, int32, float или double), и использует доступные оптимизации на уровне процессора.
+Пример предоставляет различные опции для управления этим процессом, включая выбор типа данных (char, int32, float или double), и использует доступные оптимизации на уровне процессора. Под процессор производится автоматический выбор наилучшей оптимизации в функции multiplyAndSum() класса CVectorMulSum, заданной в файле "mulsum.h" (строки 64 - 76). Т.е. AVX512 либо, если её нет, то AVX, иначе SSE, и если воообще не поддерживается никакая оптимизация, то без неё (используются обычные процессорные инструкции).
 
 Использование: vecmulsm [КЛЮЧ] [КЛЮЧ]\
 Выдаёт сумму произведений векторов, заданных в бинарных файлах, заданных следующими параметрами:\
