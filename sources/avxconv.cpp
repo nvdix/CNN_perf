@@ -108,7 +108,10 @@ float AVXConv::RunConv()
 }
 
 // Умножение и суммирование целочисленных 8-разрядных операндов (AVX-256 бит)
-__attribute__((target("avx2,fma"))) inline void dot_product_optimized_AVX256(char* a_ptr, char* w_ptr, size_t n, char& sum_val)
+#ifndef _WIN32
+__attribute__((target("avx2,fma")))
+#endif
+inline void dot_product_optimized_AVX256(char* a_ptr, char* w_ptr, size_t n, char& sum_val)
 {
     __m256i sum16 = _mm256_setzero_si256();
     for (size_t i = 0; i < n; ++i)
@@ -123,7 +126,10 @@ __attribute__((target("avx2,fma"))) inline void dot_product_optimized_AVX256(cha
 }
 
 // Умножение и суммирование операндов с плавающим знаком двойной точности (AVX-256 бит)
-__attribute__((target("avx2,fma"))) inline void dot_product_optimized_AVX256(double* a_ptr, double* w_ptr, size_t n, double& sum_val)
+#ifndef _WIN32
+__attribute__((target("avx2,fma")))
+#endif
+inline void dot_product_optimized_AVX256(double* a_ptr, double* w_ptr, size_t n, double& sum_val)
 {
     __m256d sum4 = _mm256_setzero_pd();
     for(size_t i = 0; i < n; i++)
@@ -133,7 +139,10 @@ __attribute__((target("avx2,fma"))) inline void dot_product_optimized_AVX256(dou
 }
 
 // Умножение и суммирование операндов с плавающим знаком одинарной точности (AVX-256 бит)
-__attribute__((target("avx2,fma"))) inline void dot_product_optimized_AVX256(float* a_ptr, float* w_ptr, size_t n, float& sum_val)
+#ifndef _WIN32
+__attribute__((target("avx2,fma")))
+#endif
+inline void dot_product_optimized_AVX256(float* a_ptr, float* w_ptr, size_t n, float& sum_val)
 {
     __m256 sum8 = _mm256_setzero_ps();
     for(size_t i = 0; i < n; i++)
@@ -144,7 +153,10 @@ __attribute__((target("avx2,fma"))) inline void dot_product_optimized_AVX256(flo
 }
 
 // Умножение и суммирование целочисленных 32-разрядных операндов (AVX-256 бит)
-__attribute__((target("avx2,fma"))) inline void dot_product_optimized_AVX256(int32_t* a_ptr, int32_t* w_ptr, size_t n, int32_t& sum_val)
+#ifndef _WIN32
+__attribute__((target("avx2,fma")))
+#endif
+inline void dot_product_optimized_AVX256(int32_t* a_ptr, int32_t* w_ptr, size_t n, int32_t& sum_val)
 {
     __m256i sum8 = _mm256_setzero_si256();
     for(size_t i = 0; i < n; ++i)

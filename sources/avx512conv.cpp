@@ -108,7 +108,10 @@ float AVX512Conv::RunConv()
 }
 
 // Умножение и суммирование целочисленных 8-разрядных операндов (AVX512-512 бит)
-__attribute__((target("avx512f,avx512bw"))) inline void dot_product_optimized_AVX512(char* a_ptr, char* w_ptr, size_t n, char& sum_val)
+#ifndef _WIN32
+__attribute__((target("avx512f,avx512bw")))
+#endif
+inline void dot_product_optimized_AVX512(char* a_ptr, char* w_ptr, size_t n, char& sum_val)
 {
     __m512i sum32 = _mm512_setzero_si512();
     for (size_t i = 0; i < n; ++i)
@@ -124,7 +127,10 @@ __attribute__((target("avx512f,avx512bw"))) inline void dot_product_optimized_AV
 }
 
 // Умножение и суммирование операндов с плавающим знаком двойной точности (AVX512-512 бит)
-__attribute__((target("avx512f,avx512bw"))) inline void dot_product_optimized_AVX512(double* a_ptr, double* w_ptr, size_t n, double& sum_val)
+#ifndef _WIN32
+__attribute__((target("avx512f,avx512bw")))
+#endif
+inline void dot_product_optimized_AVX512(double* a_ptr, double* w_ptr, size_t n, double& sum_val)
 {
     __m512d sum8 = _mm512_setzero_pd();
     for(size_t i = 0; i < n; i++)
@@ -135,7 +141,10 @@ __attribute__((target("avx512f,avx512bw"))) inline void dot_product_optimized_AV
 }
 
 // Умножение и суммирование операндов с плавающим знаком одинарной точности (AVX512-512 бит)
-__attribute__((target("avx512f,avx512bw"))) inline void dot_product_optimized_AVX512(float* a_ptr, float* w_ptr, size_t n, float& sum_val)
+#ifndef _WIN32
+__attribute__((target("avx512f,avx512bw")))
+#endif
+inline void dot_product_optimized_AVX512(float* a_ptr, float* w_ptr, size_t n, float& sum_val)
 {
     __m512 sum16 = _mm512_setzero_ps();
 
@@ -149,7 +158,10 @@ __attribute__((target("avx512f,avx512bw"))) inline void dot_product_optimized_AV
 }
 
 // Умножение и суммирование целочисленных 32-разрядных операндов (AVX512-512 бит)
-__attribute__((target("avx512f,avx512bw"))) inline void dot_product_optimized_AVX512(int32_t* a_ptr, int32_t* w_ptr, size_t n, int32_t& sum_val)
+#ifndef _WIN32
+__attribute__((target("avx512f,avx512bw")))
+#endif
+inline void dot_product_optimized_AVX512(int32_t* a_ptr, int32_t* w_ptr, size_t n, int32_t& sum_val)
 {
     __m512i sum16 = _mm512_setzero_si512();
     for(size_t i = 0; i < n; ++i)

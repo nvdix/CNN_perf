@@ -5,10 +5,19 @@
 #include "headers/baseconv.h"
 #include "headers/log.h"
 
+#ifdef _WIN32
+#include "headers/updencoding.h"
+#endif
+
 float gEpsilon = kDefEps;
 
 int main(int argc, char *argv[])
 {
+
+#ifdef _WIN32
+    setlocale(LC_ALL, "ru-RU");
+#endif
+
     //SetLogLevel(LogLevel::kDebug);
 
     try {
@@ -17,9 +26,9 @@ int main(int argc, char *argv[])
         std::string str;
 
         // Проверка на ключ затребующий вывод справки
-        if (((CmdArgs *)arg.get())->FindHelp())
+        if (((CmdArgs *)arg.get())->FindHelp() || argc==1)
         {
-            std::cout << kHelpMessage << std::endl;
+            std::cout << UpdateEncoding(kHelpMessage) << std::endl;
             return 0;
         }
 
@@ -70,7 +79,7 @@ int main(int argc, char *argv[])
     // Обработчик исключений - вывод сообщений об ошибках
     catch(const std::exception& err)
     {
-        std::cout << kErrorString << err.what() << std::endl;
+        std::cout << UpdateEncoding(kErrorString) << err.what() << std::endl;
         if (IsLog())
             LOG_RESULT(std::string(kErrorString) + err.what() + "\n");
         return 1;

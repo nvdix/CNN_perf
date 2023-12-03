@@ -1,4 +1,9 @@
+#ifndef _WIN32
 #include <cpuid.h>
+#else
+#include <intrin.h>
+#include <array>
+#endif
 
 #include "headers/consts.h"
 #include "headers/utils.h"
@@ -11,7 +16,7 @@ std::string string_format(const std::string fmt_str, ...)
     va_list ap;
     while(1) {
         formatted.reset(new char[n]); /* Wrap the plain char array into the unique_ptr */
-        strcpy(&formatted[0], fmt_str.c_str());
+        strcpy_s(&formatted[0], n, fmt_str.c_str());
         va_start(ap, fmt_str);
         final_n = vsnprintf(&formatted[0], n, fmt_str.c_str(), ap);
         va_end(ap);
@@ -25,7 +30,11 @@ std::string string_format(const std::string fmt_str, ...)
 
 void cpuid(int info[4], int InfoType)
 {
+#ifndef _WIN32
     __cpuid_count(InfoType, 0, info[0], info[1], info[2], info[3]);
+#else
+    __cpuid(info, InfoType);
+#endif
 }
 
 // Проверка наличия указанного вида оптимизации в процессоре

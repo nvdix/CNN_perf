@@ -199,7 +199,11 @@ CmdArgs::CmdArgs(int argc, char *argv[])
             if (findedEqual != std::string::npos)
             {
                 char *pend;
+#ifndef _WIN32
                 float eps = strtof32(&(a.data()[findedEqual + 1]), &pend);
+#else
+                float eps = static_cast<float>(strtof(&(a.data()[findedEqual + 1]), &pend));
+#endif
                 if (eps >= kDefMinEps && eps <= kDefMaxEps)
                     gEpsilon = eps;
                 else

@@ -12,7 +12,11 @@
 
 extern float gEpsilon;
 
-typedef __attribute__(( aligned(64)))  char aligned_char;
+#ifdef _WIN32
+typedef char aligned_char;
+#else
+typedef __attribute__((aligned(64)))  char aligned_char;
+#endif
 
 // Типы данных в свёртке
 enum class CONV_TYPE {

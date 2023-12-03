@@ -106,7 +106,10 @@ float SSEConv::RunConv()
 }
 
 // Умножение и суммирование целочисленных 8-разрядных операндов(SSE-128 бит)
-__attribute__((target("sse4.2"))) inline void dot_product_optimized_SSE128(char* a_ptr, char* w_ptr, size_t n, char& sum_val)
+#ifndef _WIN32
+__attribute__((target("sse4.2")))
+#endif
+inline void dot_product_optimized_SSE128(char* a_ptr, char* w_ptr, size_t n, char& sum_val)
 {
     __m128i sum4 = _mm_setzero_si128();
     int32_t* sum_ptr = (int32_t*)&sum4;
@@ -124,7 +127,10 @@ __attribute__((target("sse4.2"))) inline void dot_product_optimized_SSE128(char*
 }
 
 // Умножение и суммирование операндов с плавающим знаком двойной точности (SSE-128 бит)
-__attribute__((target("sse4.2"))) inline void dot_product_optimized_SSE128(double* a_ptr, double* w_ptr,size_t n, double& sum_val)
+#ifndef _WIN32
+__attribute__((target("sse4.2")))
+#endif
+inline void dot_product_optimized_SSE128(double* a_ptr, double* w_ptr,size_t n, double& sum_val)
 {
     __m128d sum2 = _mm_setzero_pd();
     double* sum_ptr = (double *) &sum2;
@@ -139,7 +145,10 @@ __attribute__((target("sse4.2"))) inline void dot_product_optimized_SSE128(doubl
 }
 
 // Умножение и суммирование операндов с плавающим знаком одинарной точности (SSE-128 бит)
-__attribute__((target("sse4.2"))) inline void dot_product_optimized_SSE128(float* a_ptr, float* w_ptr, size_t n, float& sum_val)
+#ifndef _WIN32
+__attribute__((target("sse4.2")))
+#endif
+inline void dot_product_optimized_SSE128(float* a_ptr, float* w_ptr, size_t n, float& sum_val)
 {
     __m128 sum4=_mm_setzero_ps();
     float*sum_ptr=(float*)(&sum4);
@@ -154,7 +163,10 @@ __attribute__((target("sse4.2"))) inline void dot_product_optimized_SSE128(float
 }
 
 // Умножение и суммирование целочисленных 32-разрядных операндов(SSE-128 бит)
-__attribute__((target("sse4.2"))) inline void dot_product_optimized_SSE128(int32_t* a_ptr, int32_t* w_ptr, size_t n, int32_t& sum_val)
+#ifndef _WIN32
+__attribute__((target("sse4.2")))
+#endif
+inline void dot_product_optimized_SSE128(int32_t* a_ptr, int32_t* w_ptr, size_t n, int32_t& sum_val)
 {
     __m128i sum4 = _mm_setzero_si128();
     int32_t* sum_ptr = (int32_t *) &sum4;
