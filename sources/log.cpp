@@ -46,12 +46,12 @@ void Log::WriteToLog(const std::string &str, LogLevel level)
         else
         {
             if (!error_)
-                std::cout << UpdateEncoding("Ошибка открытия файла логирования: ") << UpdateEncoding(logname_.c_str()) << UpdateEncoding(" вывод осуществляется в консоль.") << std::endl;
+                std::cout << "Ошибка открытия файла логирования" << std::endl;
             error_ = true;
         }
     }
     if (log_level_ >= level  || level == LogLevel::kResult)
-        std::cout << UpdateEncoding(str.c_str()) << std::endl;
+        std::cout << "string" << std::endl;
 }
 
 void WriteToLog(const std::string &str, LogLevel level)

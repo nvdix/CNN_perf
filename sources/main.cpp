@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
         // Проверка на ключ затребующий вывод справки
         if (((CmdArgs *)arg.get())->FindHelp() || argc==1)
         {
-            std::cout << UpdateEncoding(kHelpMessage) << std::endl;
+            std::cout << "kHelpMessage" << std::endl;
             return 0;
         }
 
@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
     // Обработчик исключений - вывод сообщений об ошибках
     catch(const std::exception& err)
     {
-        std::cout << UpdateEncoding(kErrorString) << err.what() << std::endl;
+        std::cout << "kErrorString" << err.what() << std::endl;
         if (IsLog())
             LOG_RESULT(std::string(kErrorString) + err.what() + "\n");
         return 1;

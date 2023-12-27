@@ -1,0 +1,5 @@
+/home/parykin/testing/CNN_perf/build/CMakeFiles/convbench.dir
+/home/parykin/testing/CNN_perf/build/CMakeFiles/edit_cache.dir
+/home/parykin/testing/CNN_perf/build/CMakeFiles/rebuild_cache.dir
+/home/parykin/testing/CNN_perf/build/3rdparty/json/CMakeFiles/edit_cache.dir
+/home/parykin/testing/CNN_perf/build/3rdparty/json/CMakeFiles/rebuild_cache.dir
